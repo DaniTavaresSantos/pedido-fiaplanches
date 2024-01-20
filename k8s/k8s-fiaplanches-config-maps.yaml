@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fiap-lanches-client-config
+  name: fiap-lanches-order-config
   namespace: fiap-lanches-api
   labels:
     app: postgres

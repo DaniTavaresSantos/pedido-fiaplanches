@@ -2,35 +2,35 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: fiap-lanches-client-api
-  name: fiap-lanches-client-api
+    app: fiap-lanches-order-api
+  name: fiap-lanches-order-api
   namespace: fiap-lanches-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fiap-lanches-client-api
+      app: fiap-lanches-order-api
   template:
     metadata:
       labels:
-        app: fiap-lanches-client-api
-      name: fiap-lanches-client-api
+        app: fiap-lanches-order-api
+      name: fiap-lanches-order-api
     spec:
       containers:
-        - image: docker.io/dalexandrias/fiap-lanches-client-app:latest
+        - image: docker.io/dalexandrias/fiap-lanches-order-app:latest
           imagePullPolicy: IfNotPresent
-          name: fiap-lanches-client-api
+          name: fiap-lanches-order-api
           ports:
             - containerPort: 8085
               protocol: TCP
           envFrom:
             - configMapRef:
-                name: fiap-lanches-client-config
+                name: fiap-lanches-order-config
           env:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: fiap-lanches-client-secrets
+                  name: fiap-lanches-order-secrets
                   optional: false
       restartPolicy: Always
