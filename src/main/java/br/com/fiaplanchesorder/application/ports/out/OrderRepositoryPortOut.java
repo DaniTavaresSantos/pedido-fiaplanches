@@ -2,6 +2,7 @@ package br.com.fiaplanchesorder.application.ports.out;
 
 import br.com.fiaplanchesorder.application.dtos.OrderDto;
 import br.com.fiaplanchesorder.application.dtos.PageInfoDto;
+import br.com.fiaplanchesorder.domain.enums.OrderStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +13,5 @@ public interface OrderRepositoryPortOut {
     OrderDto saveOrder(OrderDto pedidoDto);
     Optional<OrderDto> findOrderById(Long idPedido);
     List<OrderDto> findOrderOrdered();
+    List<OrderDto> findOrderByStatus(OrderStatus status);
 }

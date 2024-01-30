@@ -7,6 +7,7 @@ import br.com.fiaplanchesorder.application.ports.out.OrderRepositoryPortOut;
 import br.com.fiaplanchesorder.application.ports.out.ProductRestPortOut;
 import br.com.fiaplanchesorder.domain.Order;
 import br.com.fiaplanchesorder.domain.enums.OrderStatus;
+import br.com.fiaplanchesorder.infra.exception.handler.OrderBusinessException;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.security.InvalidParameterException;
@@ -27,21 +28,21 @@ public class UpdateOrderUseCase {
     public OrderDto updateOrder(UpdateOrderDto updateOrderDto) {
 
         OrderDto orderOldDto = orderRepositoryPortOut.findOrderById(updateOrderDto.order()).orElseThrow(
-                () -> new EntityNotFoundException("Pedido não encontrado")
+                () -> new OrderBusinessException("Pedido não encontrado")
         );
 
         if (orderOldDto.orderStatus().equals(OrderStatus.NO_CARRINHO)) {
             List<Long> productsNew = updateOrderDto.products();
             List<Long> productsOld = orderOldDto.products();
 
-            List<ProductDto> productDtoList = productRestPortOut.findByIds(productsNew).orElseThrow(
-                    () -> new RuntimeException("Falha para consultar os novos produtos")
+            productRestPortOut.findByIds(productsNew).orElseThrow(
+                    () -> new OrderBusinessException("Falha para consultar os novos produtos")
             );
 
             var idsMatch = new HashSet<>(productsNew).containsAll(productsOld);
 
             if (idsMatch) {
-                throw new InvalidParameterException("Nao localizado alteracoes nos produtos informados");
+                throw new OrderBusinessException("Nao localizado alteracoes nos produtos informados");
             }
 
             Order order = orderOldDto.toOrder();
@@ -49,11 +50,9 @@ public class UpdateOrderUseCase {
 
             OrderDto orderUpdateDto = OrderDto.toOrderDto(order);
 
-            OrderDto orderDtoSaved = orderRepositoryPortOut.saveOrder(orderUpdateDto);
-
-            return orderDtoSaved;
+            return orderRepositoryPortOut.saveOrder(orderUpdateDto);
         } else {
-            throw new RuntimeException("Status do pedido invalido para atualizacao");
+            throw new OrderBusinessException("Status do pedido invalido para atualizacao");
         }
     }
 }

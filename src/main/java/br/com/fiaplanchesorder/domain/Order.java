@@ -18,18 +18,18 @@ public class Order {
 
     private OrderStatus orderStatus;
 
-    private Boolean isApproved = false;
+    private Boolean approved = false;
 
     public Order() {
     }
 
-    public Order(Long id, String cpf, List<Long> products, LocalDateTime dateOrder, OrderStatus orderStatus, Boolean isApproved) {
+    public Order(Long id, String cpf, List<Long> products, LocalDateTime dateOrder, OrderStatus orderStatus, Boolean approved) {
         this.id = id;
         this.cpf = cpf;
         this.products = products;
         this.dateOrder = dateOrder;
         this.orderStatus = orderStatus;
-        this.isApproved = isApproved;
+        this.approved = approved;
     }
 
     public Long getId() {
@@ -73,11 +73,11 @@ public class Order {
     }
 
     public Boolean getApproved() {
-        return isApproved;
+        return approved;
     }
 
     public void setApproved(Boolean approved) {
-        isApproved = approved;
+        this.approved = approved;
     }
 
     @Override
@@ -85,11 +85,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(cpf, order.cpf) && Objects.equals(products, order.products) && Objects.equals(dateOrder, order.dateOrder) && orderStatus == order.orderStatus && Objects.equals(isApproved, order.isApproved);
+        return Objects.equals(id, order.id) && Objects.equals(cpf, order.cpf) && Objects.equals(products, order.products) && Objects.equals(dateOrder, order.dateOrder) && orderStatus == order.orderStatus && Objects.equals(approved, order.approved);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cpf, products, dateOrder, orderStatus, isApproved);
+        return Objects.hash(id, cpf, products, dateOrder, orderStatus, approved);
     }
 }

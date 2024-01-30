@@ -15,13 +15,13 @@ public class PaymentOrder {
 
     private Long orderId;
     private PaymentMethodEnum paymentMethod;
-    private BigDecimal paymentValue;
+    private BigDecimal value;
 
     public PaymentOrderDto toPaymentOrderDto() {
         return new PaymentOrderDto(
                 this.orderId,
                 this.paymentMethod,
-                this.paymentValue
+                this.value
         );
     }
 }

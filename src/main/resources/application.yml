@@ -12,10 +12,10 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 #      properties:
@@ -23,7 +23,11 @@ spring:
 
 kafka:
   topic:
-    name: fiap-lanches-payment
+    producer:
+      name: fiap-lanches-payment
+    consumer:
+      name: fiap-lanches-order
+
 management:
   endpoints:
     enabled-by-default: false
@@ -35,7 +39,7 @@ management:
       enabled: true
 rest:
   clients:
-    endpoint: http://localhost:8085/v1/client
+    endpoint: ${REST_CLIENTS_ENDPOINT:http://localhost:8085/v1/client}
   products:
-    endpoint: http://localhost:8082/v1/product
+    endpoint: ${REST_PRODUCTS_ENDPOINT:http://localhost:8082/v1/product}
 

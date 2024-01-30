@@ -2,6 +2,7 @@ package br.com.fiaplanchesorder.infra.rest;
 
 import br.com.fiaplanchesorder.application.dtos.*;
 import br.com.fiaplanchesorder.application.usecases.*;
+import br.com.fiaplanchesorder.domain.enums.OrderStatus;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -25,18 +26,21 @@ public class OrderController {
     private final UpdateOrderUseCase updateOrderUseCase;
     private final FindOrderOrderedUseCase findOrderOrderedUseCase;
 
+    private final FindOrderStatusUseCase findOrderStatusUseCase;
+
     public OrderController(FindOrderClientUseCase findOrderClientUseCase,
                            FindOrderUseCase findOrderUseCase,
                            PaymentOrderUseCase paymentOrderUseCase,
                            CreateOrderUseCase createOrderUseCase,
                            UpdateOrderUseCase updateOrderUseCase,
-                           FindOrderOrderedUseCase findOrderOrderedUseCase){
+                           FindOrderOrderedUseCase findOrderOrderedUseCase, FindOrderStatusUseCase findOrderStatusUseCase){
         this.findOrderClientUseCase = findOrderClientUseCase;
         this.findOrderUseCase = findOrderUseCase;
         this.paymentOrderUseCase = paymentOrderUseCase;
         this.createOrderUseCase = createOrderUseCase;
         this.updateOrderUseCase = updateOrderUseCase;
         this.findOrderOrderedUseCase = findOrderOrderedUseCase;
+        this.findOrderStatusUseCase = findOrderStatusUseCase;
     }
 
     @GetMapping()
@@ -58,6 +62,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new PageImpl<OrderDto>(orderDtos, pageable, orderDtos.size())
         );
+    }
+
+    @GetMapping("/find/status/{status}")
+    public ResponseEntity<List<OrderDto>> findOrdersStatus(@PathVariable OrderStatus status) {
+        List<OrderDto> orderDtos = findOrderStatusUseCase.findOrderStatus(status);
+        return ResponseEntity.status(HttpStatus.OK).body(orderDtos);
     }
 
     @PostMapping("/pay-order")

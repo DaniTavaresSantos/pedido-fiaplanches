@@ -1,6 +1,9 @@
 FROM maven:latest
 
-ENV SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/fiap-lanches-order
+ENV SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db-order:5432/fiap-lanches-order
+ENV SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka1:19091
+ENV REST_CLIENTS_ENDPOINT=http://fiap-lanches-client-api:8085/v1/client
+ENV REST_PRODUCTS_ENDPOINT=http://fiap-lanches-product-api:8082/v1/product
 WORKDIR /app
 RUN rm -rf /app/*
 COPY . /app

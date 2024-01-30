@@ -9,7 +9,7 @@ import br.com.fiaplanchesorder.application.ports.out.ProductRestPortOut;
 import br.com.fiaplanchesorder.domain.Order;
 import br.com.fiaplanchesorder.domain.PaymentOrder;
 import br.com.fiaplanchesorder.domain.enums.OrderStatus;
-import jakarta.persistence.EntityNotFoundException;
+import br.com.fiaplanchesorder.infra.exception.handler.OrderBusinessException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,13 +32,17 @@ public class PaymentOrderUseCase {
     public OrderDto payOrder(PaymentOrderDto paymentOrderDto) {
 
         OrderDto orderDto = orderRepositoryPortOut.findOrderById(paymentOrderDto.orderId())
-                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
+                .orElseThrow(() -> new OrderBusinessException("Pedido não encontrado"));
+
+        if (Boolean.TRUE.equals(orderDto.approved())) {
+            throw new OrderBusinessException("Pedido aprovado");
+        }
 
         List<ProductDto> productDtos = productRestPortOut.findByIds(orderDto.products())
-                .orElseThrow(() -> new EntityNotFoundException("Produtos não encontrados"));
+                .orElseThrow(() -> new OrderBusinessException("Produtos não encontrados"));
 
         PaymentOrder paymentOrder = paymentOrderDto.toPaymentOrder();
-        paymentOrder.setPaymentValue(calculaValorTotal(productDtos));
+        paymentOrder.setValue(calculaValorTotal(productDtos));
 
         paymentOrderTopicPortOut.sendPaymentOrder(paymentOrder.toPaymentOrderDto());
 

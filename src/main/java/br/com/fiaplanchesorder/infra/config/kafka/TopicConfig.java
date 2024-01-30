@@ -9,12 +9,21 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class TopicConfig {
 
-    @Value("${kafka.topic.name}")
+    @Value("${kafka.topic.producer.name}")
     private String topicPayment;
 
+    @Value("${kafka.topic.consumer.name}")
+    private String topicOrder;
+
     @Bean
-    public NewTopic fiapLanchesPayment() {
+    public NewTopic topicPayment() {
         return TopicBuilder.name(topicPayment)
+                .build();
+    }
+
+    @Bean
+    public NewTopic topicOrder() {
+        return TopicBuilder.name(topicOrder)
                 .build();
     }
 }

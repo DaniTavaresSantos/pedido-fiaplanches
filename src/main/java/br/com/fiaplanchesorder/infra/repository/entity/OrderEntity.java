@@ -24,7 +24,7 @@ public class OrderEntity {
 
     private String cpf;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private List<OrderProduct> orderProducts;
 
@@ -55,7 +55,7 @@ public class OrderEntity {
                 orderDto.products().stream().map(orderProduct -> new OrderProduct(null, orderProduct)).toList(),
                 orderDto.dateOrder(),
                 orderDto.orderStatus(),
-                orderDto.isApproved()
+                orderDto.approved()
         );
     }
 }

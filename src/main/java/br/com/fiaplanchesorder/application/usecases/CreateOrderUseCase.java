@@ -8,6 +8,7 @@ import br.com.fiaplanchesorder.application.ports.out.ClientRestPortOut;
 import br.com.fiaplanchesorder.application.ports.out.OrderRepositoryPortOut;
 import br.com.fiaplanchesorder.application.ports.out.ProductRestPortOut;
 import br.com.fiaplanchesorder.domain.enums.OrderStatus;
+import br.com.fiaplanchesorder.infra.exception.handler.OrderBusinessException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,16 +35,16 @@ public class CreateOrderUseCase {
     public OrderDto createOrder(CreateOrderDto createOrderDto) {
         log.info("Executando adicionaNoCarrinho");
 
-        ClientDto clientDto = clientRestPortOut.findCpf(createOrderDto.cpf())
+        clientRestPortOut.findCpf(createOrderDto.cpf())
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Cliente não encontrado")
+                        () -> new OrderBusinessException("Cliente não encontrado")
                 );
 
         List<Long> idProdutos = createOrderDto.produtos();
 
         List<ProductDto> productDtoList = productRestPortOut.findByIds(idProdutos)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Produtos nao encontrados")
+                        () -> new OrderBusinessException("Produtos nao encontrados")
                 );
 
         List<Long> idsProductsRegistered = productDtoList.stream().map(ProductDto::id).toList();

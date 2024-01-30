@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  postgres-db:
+  postgres-db-order:
     image: postgres
     environment:
       POSTGRES_USER: admin
@@ -10,29 +10,29 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres-db-order:/var/lib/postgresql/data
     networks:
-      - fiap-lanchonete-network
+      - fiap-lanchonet-network
         
-#  fiap-lanches-order-api:
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile
-#    ports:
-#      - 8080:8080
-#    volumes:
-#      - fiap-lancher:/var/lib/fiaplancher/data
-#    depends_on:
-#      - postgres-db
-#    networks:
-#      - fiap-lanchonete-network
+  fiap-lanches-order-api:
+   build:
+     context: .
+     dockerfile: ./Dockerfile
+   ports:
+     - "8081:8081"
+   volumes:
+     - fiap-lanches-order-api:/var/lib/fiaplancher/data
+   depends_on:
+     - postgres-db-order
+   networks:
+     - fiap-lanchonet-network
 
 networks:
-  fiap-lanchonete-network:
-    driver: bridge
+  fiap-lanchonet-network:
+    external: true
 
 volumes:
-  postgres-db:
+  postgres-db-order:
     driver: local
-  fiap-lancher:
+  fiap-lanches-order-api:
     driver: local

@@ -12,15 +12,15 @@ public record OrderDto(
         List<Long> products,
         LocalDateTime dateOrder,
         OrderStatus orderStatus,
-        Boolean isApproved
+        Boolean approved
 ) {
-    public OrderDto(Long id, String cpf, List<Long> products, LocalDateTime dateOrder, OrderStatus orderStatus, Boolean isApproved) {
+    public OrderDto(Long id, String cpf, List<Long> products, LocalDateTime dateOrder, OrderStatus orderStatus, Boolean approved) {
         this.id = id;
         this.cpf = cpf;
         this.products = products;
         this.dateOrder = dateOrder;
         this.orderStatus = orderStatus;
-        this.isApproved = isApproved;
+        this.approved = approved;
     }
 
     public Order toOrder() {
@@ -30,7 +30,7 @@ public record OrderDto(
         order.setProducts(this.products());
         order.setDateOrder(this.dateOrder());
         order.setOrderStatus(this.orderStatus());
-        order.setApproved(this.isApproved());
+        order.setApproved(this.approved());
         return order;
     }
 

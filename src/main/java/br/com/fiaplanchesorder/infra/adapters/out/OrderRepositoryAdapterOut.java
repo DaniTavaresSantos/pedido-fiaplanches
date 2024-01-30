@@ -3,11 +3,13 @@ package br.com.fiaplanchesorder.infra.adapters.out;
 import br.com.fiaplanchesorder.application.dtos.OrderDto;
 import br.com.fiaplanchesorder.application.dtos.PageInfoDto;
 import br.com.fiaplanchesorder.application.ports.out.OrderRepositoryPortOut;
+import br.com.fiaplanchesorder.domain.enums.OrderStatus;
 import br.com.fiaplanchesorder.infra.repository.PostGresOrderRepository;
 import br.com.fiaplanchesorder.infra.repository.entity.OrderEntity;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,5 +49,10 @@ public class OrderRepositoryAdapterOut implements OrderRepositoryPortOut {
     @Override
     public List<OrderDto> findOrderOrdered() {
         return postGresOrderRepository.findAll().stream().map(OrderEntity::toOrderDto).toList();
+    }
+
+    @Override
+    public List<OrderDto> findOrderByStatus(OrderStatus status) {
+        return postGresOrderRepository.findAllByStatus(status).stream().map(OrderEntity::toOrderDto).toList();
     }
 }
