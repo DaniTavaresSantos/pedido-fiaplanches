@@ -13,19 +13,19 @@ services:
       - postgres-db-order:/var/lib/postgresql/data
     networks:
       - fiap-lanchonet-network
-        
+
   fiap-lanches-order-api:
-   build:
-     context: .
-     dockerfile: ./Dockerfile
-   ports:
-     - "8081:8081"
-   volumes:
-     - fiap-lanches-order-api:/var/lib/fiaplancher/data
-   depends_on:
-     - postgres-db-order
-   networks:
-     - fiap-lanchonet-network
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - fiap-lanches-order-api:/var/lib/fiaplancher/data
+    depends_on:
+      - postgres-db-order
+    networks:
+      - fiap-lanchonet-network
 
 networks:
   fiap-lanchonet-network:
