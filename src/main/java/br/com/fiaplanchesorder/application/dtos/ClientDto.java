@@ -1,7 +1,7 @@
 package br.com.fiaplanchesorder.application.dtos;
 
 public record ClientDto(
-        Long id,
+        String id,
         String cpf,
         String nome
 ) {

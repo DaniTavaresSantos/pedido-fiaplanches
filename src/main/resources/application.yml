@@ -39,7 +39,7 @@ management:
       enabled: true
 rest:
   clients:
-    endpoint: ${REST_CLIENTS_ENDPOINT:http://localhost:8085/v1/client}
+    endpoint: ${REST_CLIENTS_ENDPOINT:https://laoe39jpj4.execute-api.us-east-1.amazonaws.com/fiap-lanches-prd/conta-api/v1/client}
   products:
-    endpoint: ${REST_PRODUCTS_ENDPOINT:http://localhost:8082/v1/product}
+    endpoint: ${REST_PRODUCTS_ENDPOINT:https://laoe39jpj4.execute-api.us-east-1.amazonaws.com/fiap-lanches-prd/product-api/v1/product}
 
