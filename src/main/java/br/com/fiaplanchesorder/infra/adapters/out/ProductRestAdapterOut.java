@@ -22,7 +22,7 @@ public class ProductRestAdapterOut implements ProductRestPortOut {
 
         List<ProductDto> productDtoList = restProduct.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/find/ids")
+                        .path("/find")
                         .queryParam("ids", productsIds)
                         .build()
                 )
